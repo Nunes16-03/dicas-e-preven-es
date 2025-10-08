@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evite Golpes - DicaV  isuais</title>
+    <title>Proteja-se de Golpes Digitais</title>
+
+    <!-- Fonte moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Ícones -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             margin: 0;
             padding: 0;
-            color: #333;
+            color: #1f1f1f;
         }
 
         header {
             background-color: #ff4d4d;
             color: white;
-            padding: 25px 10px;
             text-align: center;
+            padding: 25px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         header h1 {
@@ -30,8 +41,8 @@
             max-width: 900px;
             margin: 30px auto;
             padding: 20px;
+            background: white;
             border-radius: 12px;
-            background-color: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
@@ -42,23 +53,35 @@
         }
 
         .frase {
-            font-style: italic;
             background-color: #fff0f0;
-            padding: 12px 15px;
             border-left: 5px solid #ff4d4d;
             margin-bottom: 12px;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-style: italic;
+            transition: 0.3s;
+        }
+
+        .frase:hover {
+            transform: scale(1.02);
+            background-color: #ffeaea;
         }
 
         .dica {
             display: flex;
             align-items: center;
             background-color: #fff8e1;
-            padding: 12px 15px;
             border-left: 5px solid #ffcc00;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 6px;
             gap: 10px;
+            transition: 0.3s;
+        }
+
+        .dica:hover {
+            transform: scale(1.02);
+            background-color: #fff3cd;
         }
 
         .dica i {
@@ -68,38 +91,63 @@
             text-align: center;
         }
 
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            color: #555;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+
+        .qrcode {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .qrcode img {
+            width: 130px;
+            height: 130px;
+            border-radius: 8px;
+        }
+
         @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.5em;
-            }
-            h2 {
-                font-size: 1.3em;
-            }
+            header h1 { font-size: 1.6em; }
+            h2 { font-size: 1.3em; }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Evite Golpes: Dicas Visuais</h1>
+        <h1>🔒 Proteja-se de Golpes Digitais</h1>
     </header>
 
     <section>
         <h2>Frases Motivacionais</h2>
-        <div class="frase">"A atenção é a melhor defesa contra quem quer te enganar."</div>
-        <div class="frase">"Não tenha pressa: golpes prosperam na urgência."</div>
-        <div class="frase">"Sempre confirme antes de acreditar."</div>
+        <div class="frase">“A atenção é a melhor defesa contra quem quer te enganar.”</div>
+        <div class="frase">“Não tenha pressa: golpes prosperam na urgência.”</div>
+        <div class="frase">“Sempre confirme antes de acreditar.”</div>
     </section>
 
     <section>
         <h2>Dicas Especializadas</h2>
-        <div class="dica"><i class="fas fa-exclamation-triangle"></i>Desconfie de ofertas que parecem boas demais para ser verdade.</div>
-        <div class="dica"><i class="fas fa-lock"></i>Nunca forneça senhas, códigos de segurança ou dados bancários por telefone ou WhatsApp.</div>
-        <div class="dica"><i class="fas fa-user-check"></i>Confirme a identidade da pessoa ou empresa antes de realizar qualquer pagamento.</div>
-        <div class="dica"><i class="fas fa-link"></i>Evite clicar em links enviados por desconhecidos.</div>
-        <div class="dica"><i class="fas fa-shield-alt"></i>Use autenticação em dois fatores sempre que possível.</div>
+        <div class="dica"><i class="fas fa-exclamation-triangle"></i>Desconfie de ofertas boas demais para ser verdade.</div>
+        <div class="dica"><i class="fas fa-lock"></i>Nunca forneça senhas, códigos de segurança ou dados pessoais por telefone ou WhatsApp.</div>
+        <div class="dica"><i class="fas fa-user-check"></i>Confirme sempre a identidade antes de fazer pagamentos.</div>
+        <div class="dica"><i class="fas fa-link"></i>Evite clicar em links suspeitos ou enviados por desconhecidos.</div>
+        <div class="dica"><i class="fas fa-shield-alt"></i>Ative a autenticação em dois fatores em suas contas.</div>
         <div class="dica"><i class="fas fa-search"></i>Pesquise a reputação de lojas ou serviços online antes de comprar.</div>
-        <div class="dica"><i class="fas fa-comment-slash"></i>Fique atento a mensagens com erros de português ou tom ameaçador.</div>
+        <div class="dica"><i class="fas fa-comment-slash"></i>Desconfie de mensagens com erros de português ou tom de urgência.</div>
+
+        <div class="qrcode">
+            <p><strong>Acesse pelo seu celular:</strong></p>
+            <!-- Substitua a imagem pelo seu QR Code -->
+            <img src="qrcode.png" alt="QR Code do site">
+        </div>
     </section>
+
+    <footer>
+        <p>🔒 Desenvolvido por Vinicius e Eduarda — Projeto Escolar 2025</p>
+    </footer>
 </body>
 </html>
-
