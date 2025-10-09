@@ -1,136 +1,312 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proteja-se de Golpes Digitais</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proteja-se de Golpes Digitais</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
 
-    <!-- Fonte moderna -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    header {
+      background: linear-gradient(90deg, #d32f2f, #f44336);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
-    <!-- Ícones -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    header h1 {
+      font-size: 2.4em;
+      margin-bottom: 10px;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            margin: 0;
-            padding: 0;
-            color: #1f1f1f;
-        }
+    section {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease forwards;
+    }
 
-        header {
-            background-color: #ff4d4d;
-            color: white;
-            text-align: center;
-            padding: 25px 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
+    section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
+    h2 {
+      color: #d32f2f;
+      border-bottom: 2px solid #f44336;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
 
-        section {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
 
-        h2 {
-            color: #ff4d4d;
-            margin-bottom: 15px;
-            font-size: 1.6em;
-        }
+    li {
+      padding: 10px 0;
+      font-size: 1.05em;
+    }
 
-        .frase {
-            background-color: #fff0f0;
-            border-left: 5px solid #ff4d4d;
-            margin-bottom: 12px;
-            padding: 12px 15px;
-            border-radius: 6px;
-            font-style: italic;
-            transition: 0.3s;
-        }
+    li::before {
+      content: "🔒 ";
+    }
 
-        .frase:hover {
-            transform: scale(1.02);
-            background-color: #ffeaea;
-        }
+    /* Quiz */
+    .quiz-container {
+      text-align: center;
+    }
 
-        .dica {
-            display: flex;
-            align-items: center;
-            background-color: #fff8e1;
-            border-left: 5px solid #ffcc00;
-            margin-bottom: 12px;
-            padding: 12px 15px;
-            border-radius: 6px;
-            gap: 10px;
-            transition: 0.3s;
-        }
+    .quiz-question {
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
 
-        .dica:hover {
-            transform: scale(1.02);
-            background-color: #fff3cd;
-        }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .dica i {
-            font-size: 1.5em;
-            color: #ffcc00;
-            min-width: 30px;
-            text-align: center;
-        }
+    .quiz-options button {
+      width: 80%;
+      max-width: 400px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #f1f1f1;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s, transform 0.2s;
+    }
 
-        footer {
-            text-align: center;
-            padding: 15px;
-            background-color: #f8f9fa;
-            color: #555;
-            font-size: 0.9em;
-            border-top: 1px solid #ddd;
-        }
+    .quiz-options button:hover {
+      background-color: #ffe3e3;
+      transform: scale(1.03);
+    }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.6em; }
-            h2 { font-size: 1.3em; }
-        }
-    </style>
+    .quiz-options button.correct {
+      background-color: #c8e6c9;
+    }
+
+    .quiz-options button.wrong {
+      background-color: #ffcdd2;
+    }
+
+    #quiz-feedback {
+      margin-top: 15px;
+      font-weight: bold;
+      min-height: 25px;
+    }
+
+    #quiz-next {
+      display: none;
+      margin-top: 20px;
+      background-color: #d32f2f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #quiz-next:hover {
+      background-color: #b71c1c;
+    }
+
+    #quiz-result {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      font-size: 0.95em;
+      color: #555;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🔒 Proteja-se de Golpes Digitais</h1>
-    </header>
+  <header>
+    <h1>Proteja-se de Golpes Digitais</h1>
+    <p>Aprenda a reconhecer armadilhas online e manter sua segurança digital.</p>
+  </header>
 
-    <section>
-        <h2>Frases Motivacionais</h2>
-        <div class="frase">“A atenção é a melhor defesa contra quem quer te enganar.”</div>
-        <div class="frase">“Não tenha pressa: golpes prosperam na urgência.”</div>
-        <div class="frase">“Sempre confirme antes de acreditar.”</div>
-    </section>
+  <section>
+    <h2>💬 Frases de Alerta</h2>
+    <ul>
+      <li>“Desconfie de ofertas boas demais para ser verdade.”</li>
+      <li>“Golpistas fingem ajudar, mas querem seus dados.”</li>
+      <li>“Proteja sua senha como se fosse sua chave.”</li>
+      <li>“Antes de clicar, pense: será que é seguro?”</li>
+    </ul>
+  </section>
 
-    <section>
-        <h2>Dicas Especializadas</h2>
-        <div class="dica"><i class="fas fa-exclamation-triangle"></i>Desconfie de ofertas boas demais para ser verdade.</div>
-        <div class="dica"><i class="fas fa-lock"></i>Nunca forneça senhas, códigos de segurança ou dados pessoais por telefone ou WhatsApp.</div>
-        <div class="dica"><i class="fas fa-user-check"></i>Confirme sempre a identidade antes de fazer pagamentos.</div>
-        <div class="dica"><i class="fas fa-link"></i>Evite clicar em links suspeitos ou enviados por desconhecidos.</div>
-        <div class="dica"><i class="fas fa-shield-alt"></i>Ative a autenticação em dois fatores em suas contas.</div>
-        <div class="dica"><i class="fas fa-search"></i>Pesquise a reputação de lojas ou serviços online antes de comprar.</div>
-        <div class="dica"><i class="fas fa-comment-slash"></i>Desconfie de mensagens com erros de português ou tom de urgência.</div>
-    </section>
+  <section>
+    <h2>🧠 Dicas Especializadas</h2>
+    <ul>
+      <li>Não compartilhe códigos recebidos por SMS ou WhatsApp.</li>
+      <li>Verifique o endereço do site antes de inserir dados pessoais.</li>
+      <li>Ative a verificação em duas etapas nas suas contas.</li>
+      <li>Desconfie de mensagens pedindo dinheiro ou ajuda urgente.</li>
+      <li>Evite clicar em links desconhecidos, mesmo que pareçam de amigos.</li>
+      <li>Use senhas diferentes para cada conta.</li>
+    </ul>
+  </section>
 
-    <footer>
-        <p>🔒 Desenvolvido por Vinicius e Eduarda — Projeto Escolar 2025</p>
-    </footer>
+  <section class="quiz-container">
+    <h2>🎯 Quiz Interativo: Você sabe se proteger?</h2>
+    <div id="quiz">
+      <div class="quiz-question" id="quiz-question"></div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div id="quiz-feedback"></div>
+      <button id="quiz-next" onclick="nextQuestion()">Próxima Pergunta ➡️</button>
+      <div id="quiz-result"></div>
+    </div>
+  </section>
+
+  <footer>Desenvolvido por Vinicius e Eduarda</footer>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Se alguém te envia um código por SMS e pede para repassar, o que você faz?",
+        opcoes: ["Envio, parece confiável", "Não envio, pode ser golpe"],
+        correta: 1,
+      },
+      {
+        pergunta: "Você recebe um link estranho dizendo que ganhou um prêmio. O que fazer?",
+        opcoes: ["Clico para conferir", "Ignoro, pode ser um golpe"],
+        correta: 1,
+      },
+      {
+        pergunta: "Por que ativar a verificação em duas etapas é importante?",
+        opcoes: ["Aumenta a segurança da conta", "É opcional, não faz diferença"],
+        correta: 0,
+      },
+      {
+        pergunta: "Um 'amigo' te pede dinheiro por mensagem. Qual a atitude correta?",
+        opcoes: [
+          "Confirmo por ligação antes de enviar",
+          "Envio rápido para ajudar",
+        ],
+        correta: 0,
+      },
+      {
+        pergunta: "O site tem o endereço 'banco-brasil.seguro-login.net'. O que isso indica?",
+        opcoes: ["É falso, tenta se passar por um site oficial", "É confiável, tem o nome do banco"],
+        correta: 0,
+      },
+      {
+        pergunta: "Qual é uma boa prática de segurança?",
+        opcoes: ["Usar a mesma senha em todos os sites", "Criar senhas únicas e fortes para cada conta"],
+        correta: 1,
+      },
+    ];
+
+    let indice = 0;
+    let acertos = 0;
+
+    const perguntaEl = document.getElementById("quiz-question");
+    const opcoesEl = document.getElementById("quiz-options");
+    const feedbackEl = document.getElementById("quiz-feedback");
+    const botaoProx = document.getElementById("quiz-next");
+    const resultadoEl = document.getElementById("quiz-result");
+
+    function carregarPergunta() {
+      feedbackEl.textContent = "";
+      botaoProx.style.display = "none";
+      resultadoEl.textContent = "";
+
+      const perguntaAtual = perguntas[indice];
+      perguntaEl.textContent = perguntaAtual.pergunta;
+      opcoesEl.innerHTML = "";
+
+      perguntaAtual.opcoes.forEach((opcao, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.onclick = () => verificarResposta(i);
+        opcoesEl.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(resposta) {
+      const perguntaAtual = perguntas[indice];
+      const botoes = document.querySelectorAll(".quiz-options button");
+
+      botoes.forEach((b, i) => {
+        b.disabled = true;
+        if (i === perguntaAtual.correta) b.classList.add("correct");
+        else if (i === resposta) b.classList.add("wrong");
+      });
+
+      if (resposta === perguntaAtual.correta) {
+        acertos++;
+        feedbackEl.textContent = "✅ Resposta correta!";
+      } else {
+        feedbackEl.textContent = "❌ Resposta errada. Revise as dicas!";
+      }
+
+      botaoProx.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      indice++;
+      if (indice < perguntas.length) {
+        carregarPergunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      perguntaEl.textContent = "";
+      opcoesEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      botaoProx.style.display = "none";
+      resultadoEl.innerHTML = `Você acertou <b>${acertos}</b> de <b>${perguntas.length}</b> perguntas!<br><br>${
+        acertos === perguntas.length
+          ? "🎉 Excelente! Você está muito bem protegido contra golpes!"
+          : acertos >= 4
+          ? "💪 Muito bom! Só alguns detalhes para reforçar sua segurança."
+          : "⚠️ Atenção! Revise as dicas para se proteger melhor."
+      }`;
+    }
+
+    carregarPergunta();
+  </script>
 </body>
 </html>
