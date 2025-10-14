@@ -1,312 +1,640 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Proteja-se de Golpes Digitais</title>
+
+  <!-- Google Font (opcional, melhora a aparência) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 0;
-      color: #333;
+    :root{
+      --accent:#d32f2f;
+      --accent-strong:#b71c1c;
+      --muted:#6c757d;
+      --card-bg:#ffffff;
+      --soft:#f8f9fa;
+      --success:#2e7d32;
+      --danger:#d32f2f;
+      --link:#0b61ff;
+      --surface-shadow: 0 6px 20px rgba(18,18,18,0.06);
     }
 
-    header {
-      background: linear-gradient(90deg, #d32f2f, #f44336);
-      color: white;
-      text-align: center;
-      padding: 40px 20px;
-      text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    /* Reduced motion: respect user preference */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
     }
 
-    header h1 {
-      font-size: 2.4em;
-      margin-bottom: 10px;
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg,#fbfcfd 0%, #f1f5f9 100%);
+      color: #222;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.35;
     }
 
-    header p {
-      font-size: 1.1em;
-      opacity: 0.9;
+    header{
+      background: linear-gradient(90deg,var(--accent), #f44336);
+      color:white;
+      padding:30px 18px;
+      text-align:center;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.08);
     }
 
-    section {
-      max-width: 800px;
-      margin: 30px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      animation: fadeIn 0.8s ease forwards;
+    header h1{
+      margin:0;
+      font-size:1.6rem;
+      font-weight:700;
+      letter-spacing: -0.4px;
     }
 
-    section:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    header p{
+      margin:8px 0 0;
+      opacity:0.95;
+      font-weight:500;
+      font-size:0.95rem;
     }
 
-    h2 {
-      color: #d32f2f;
-      border-bottom: 2px solid #f44336;
-      display: inline-block;
-      padding-bottom: 5px;
+    main{
+      max-width:1100px;
+      margin:26px auto;
+      padding:0 18px 60px;
+    }
+
+    .grid{
+      display:grid;
+      gap:18px;
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    @media(min-width:900px){
+      .grid-2{
+        grid-template-columns: 1fr 380px;
+        gap:22px;
+      }
+      .traps-grid{
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card{
+      background:var(--card-bg);
+      border-radius:12px;
+      padding:20px;
+      box-shadow: var(--surface-shadow);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .card:focus-within, .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(12, 12, 12, 0.09);
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      color:var(--accent);
+      font-size:1.05rem;
+      display:inline-block;
+      border-bottom:3px solid #ffb4a2;
+      padding-bottom:6px;
+      font-weight:700;
     }
 
     ul {
-      list-style: none;
-      padding: 0;
+      margin:0;
+      padding:0;
+      list-style:none;
     }
 
-    li {
-      padding: 10px 0;
-      font-size: 1.05em;
+    li{
+      padding:8px 0;
+      font-size:0.98rem;
+      color:#222;
     }
 
-    li::before {
-      content: "🔒 ";
+    li::before{
+      content:"🔒";
+      margin-right:8px;
+      opacity:0.9;
     }
 
-    /* Quiz */
-    .quiz-container {
-      text-align: center;
+    /* traps / simulated phishing links */
+    .traps {
+      display:grid;
+      gap:12px;
+      grid-template-columns:1fr;
+    }
+    .trap {
+      background: linear-gradient(180deg,#fffdf8,#fff8f0);
+      border-radius:10px;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border:1px solid rgba(0,0,0,0.03);
+    }
+    .trap-left {
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .trap .icon {
+      font-size:1.5rem;
+    }
+    .trap p {
+      margin:0;
+      font-weight:600;
+      color:#333;
+      font-size:0.98rem;
+    }
+    .fake-link {
+      display:block;
+      margin-top:6px;
+      font-size:0.92rem;
+      color:var(--link);
+      text-decoration:underline;
+      text-decoration-thickness:1px;
+      cursor:pointer;
+      border-radius:6px;
+      padding:6px 8px;
+    }
+    .fake-link:focus{
+      outline:3px solid rgba(11,97,255,0.12);
+      outline-offset:3px;
+    }
+    .fake-url {
+      display:block;
+      font-size:0.82rem;
+      color:var(--muted);
+      margin-top:4px;
+      user-select:text;
     }
 
-    .quiz-question {
-      font-weight: bold;
-      margin-bottom: 15px;
-      font-size: 1.1em;
+    /* make traps layout multicolumn on wide */
+    .traps-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+    @media(min-width:700px){
+      .traps-grid{grid-template-columns:repeat(3, 1fr);}
     }
 
-    .quiz-options {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+    /* modal */
+    #trap-modal{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(8,10,15,0.45);
+      z-index:1200;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .trap-content{
+      width:100%;
+      max-width:560px;
+      border-radius:12px;
+      background:#fff;
+      padding:20px;
+      box-shadow: 0 18px 50px rgba(14,14,14,0.2);
+      text-align:left;
+      transform:translateY(8px);
+    }
+    .trap-content h3{
+      margin:0;
+      color:var(--danger);
+      font-size:1.05rem;
+    }
+    .trap-content p{ margin:10px 0 0; color:#333; }
+    .trap-actions{
+      display:flex;
+      gap:10px;
+      margin-top:16px;
+      justify-content:flex-end;
+    }
+    .btn{
+      border:0;
+      padding:9px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      background:var(--accent);
+      color:white;
+    }
+    .btn.secondary{
+      background:#fff;
+      color:#333;
+      border:1px solid #e6e6e6;
+    }
+    .note{
+      font-size:0.85rem;
+      color:var(--muted);
+      margin-top:10px;
     }
 
-    .quiz-options button {
-      width: 80%;
-      max-width: 400px;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background-color: #f1f1f1;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.3s, transform 0.2s;
+    /* quiz */
+    .quiz-container{ text-align:left; }
+    .quiz-question{ font-weight:700; margin-bottom:8px;}
+    .quiz-options{ display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+    .quiz-options button{
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #eee;
+      background:#fbfbfb;
+      cursor:pointer;
+      text-align:left;
+      font-weight:600;
+    }
+    .quiz-options button:focus{ outline:3px solid rgba(211,47,47,0.12); outline-offset:3px; }
+    .quiz-options button.correct{ background: #e8f5e9; border-color:#c8e6c9; }
+    .quiz-options button.wrong{ background:#ffebee; border-color:#ffcdd2; }
+
+    #quiz-feedback{ margin-top:12px; font-weight:700; min-height:34px; }
+    #quiz-explain{ margin-top:8px; color:var(--muted); font-size:0.95rem; }
+
+    #quiz-next{ display:none; margin-top:12px; background:var(--accent); color:white; padding:10px 14px; border-radius:10px; border:0; cursor:pointer; }
+
+    /* footer */
+    footer{
+      text-align:center;
+      margin-top:26px;
+      padding:18px;
+      color:var(--muted);
+      font-size:0.92rem;
     }
 
-    .quiz-options button:hover {
-      background-color: #ffe3e3;
-      transform: scale(1.03);
-    }
+    /* small helpers */
+    .row{ display:flex; gap:12px; align-items:center; }
+    .muted{ color:var(--muted); font-size:0.95rem; }
 
-    .quiz-options button.correct {
-      background-color: #c8e6c9;
-    }
-
-    .quiz-options button.wrong {
-      background-color: #ffcdd2;
-    }
-
-    #quiz-feedback {
-      margin-top: 15px;
-      font-weight: bold;
-      min-height: 25px;
-    }
-
-    #quiz-next {
-      display: none;
-      margin-top: 20px;
-      background-color: #d32f2f;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    #quiz-next:hover {
-      background-color: #b71c1c;
-    }
-
-    #quiz-result {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #333;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
-      font-size: 0.95em;
-      color: #555;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
   </style>
 </head>
 <body>
   <header>
     <h1>Proteja-se de Golpes Digitais</h1>
-    <p>Aprenda a reconhecer armadilhas online e manter sua segurança digital.</p>
+    <p>Aprenda a reconhecer armadilhas online com simulações seguras e um quiz interativo.</p>
   </header>
 
-  <section>
-    <h2>💬 Frases de Alerta</h2>
-    <ul>
-      <li>“Desconfie de ofertas boas demais para ser verdade.”</li>
-      <li>“Golpistas fingem ajudar, mas querem seus dados.”</li>
-      <li>“Proteja sua senha como se fosse sua chave.”</li>
-      <li>“Antes de clicar, pense: será que é seguro?”</li>
-    </ul>
-  </section>
+  <main>
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>💬 Frases de Alerta</h2>
+        <ul>
+          <li>Desconfie de ofertas boas demais para ser verdade.</li>
+          <li>Golpistas fingem ajudar, mas querem seus dados.</li>
+          <li>Proteja sua senha como se fosse sua chave.</li>
+          <li>Antes de clicar, pense: será que é seguro?</li>
+        </ul>
+      </div>
 
-  <section>
-    <h2>🧠 Dicas Especializadas</h2>
-    <ul>
-      <li>Não compartilhe códigos recebidos por SMS ou WhatsApp.</li>
-      <li>Verifique o endereço do site antes de inserir dados pessoais.</li>
-      <li>Ative a verificação em duas etapas nas suas contas.</li>
-      <li>Desconfie de mensagens pedindo dinheiro ou ajuda urgente.</li>
-      <li>Evite clicar em links desconhecidos, mesmo que pareçam de amigos.</li>
-      <li>Use senhas diferentes para cada conta.</li>
-    </ul>
-  </section>
-
-  <section class="quiz-container">
-    <h2>🎯 Quiz Interativo: Você sabe se proteger?</h2>
-    <div id="quiz">
-      <div class="quiz-question" id="quiz-question"></div>
-      <div class="quiz-options" id="quiz-options"></div>
-      <div id="quiz-feedback"></div>
-      <button id="quiz-next" onclick="nextQuestion()">Próxima Pergunta ➡️</button>
-      <div id="quiz-result"></div>
+      <aside class="card" aria-label="dicas">
+        <h2>🧠 Dicas Rápidas</h2>
+        <ul>
+          <li>Não compartilhe códigos recebidos por SMS ou WhatsApp.</li>
+          <li>Verifique o endereço do site antes de inserir dados pessoais.</li>
+          <li>Ative a verificação em duas etapas nas suas contas.</li>
+          <li>Desconfie de mensagens pedindo dinheiro com urgência.</li>
+          <li>Evite clicar em links desconhecidos, mesmo se vierem de amigos.</li>
+          <li>Use senhas únicas e fortes para cada conta.</li>
+        </ul>
+      </aside>
     </div>
-  </section>
 
-  <footer>Desenvolvido por Vinicius e Eduarda</footer>
+    <!-- Armadilhas -->
+    <section class="card" aria-labelledby="armadilhas-title">
+      <h2 id="armadilhas-title">🕵️‍♂️ Armadilhas Digitais — Você reconhece?</h2>
+
+      <div class="traps-grid" aria-hidden="false">
+        <!-- Trap 1 -->
+        <div class="trap" role="group" aria-labelledby="trap1-title">
+          <div class="trap-left">
+            <div class="icon">🎁</div>
+            <div>
+              <p id="trap1-title">Você ganhou um prêmio exclusivo! Clique aqui para resgatar.</p>
+              <a href="#" class="fake-link" data-index="0" data-url="https://promo-gratis-oferta[.]com/resgatar" role="button" onclick="handleFakeLink(event)" aria-label="Link de resgate de prêmio (simulação)">Clique para resgatar</a>
+              <span class="fake-url">https://promo-gratis-oferta[.]com/resgatar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 2 -->
+        <div class="trap" role="group" aria-labelledby="trap2-title">
+          <div class="trap-left">
+            <div class="icon">🎥</div>
+            <div>
+              <p id="trap2-title">Seu amigo te marcou em um vídeo chocante! Veja agora.</p>
+              <a href="#" class="fake-link" data-index="1" data-url="http://video-choque-view[.]info/watch" role="button" onclick="handleFakeLink(event)" aria-label="Link para vídeo (simulação)">Assistir vídeo</a>
+              <span class="fake-url">http://video-choque-view[.]info/watch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 3 -->
+        <div class="trap" role="group" aria-labelledby="trap3-title">
+          <div class="trap-left">
+            <div class="icon">🏦</div>
+            <div>
+              <p id="trap3-title">Atualize seus dados bancários para evitar bloqueio da conta.</p>
+              <a href="#" class="fake-link" data-index="2" data-url="https://banco-oficial-seguro[.]com/atualizar" role="button" onclick="handleFakeLink(event)" aria-label="Link de atualização bancária (simulação)">Atualizar agora</a>
+              <span class="fake-url">https://banco-oficial-seguro[.]com/atualizar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="note">Dica: passe o mouse sobre o link (ou toque e segure no celular) para conferir a URL real antes de clicar. Esses exemplos são simulações seguras — não há redirecionamento.</p>
+    </section>
+
+    <!-- Quiz -->
+    <section class="card quiz-container" aria-labelledby="quiz-title">
+      <h2 id="quiz-title">🎯 Quiz Interativo: Você sabe se proteger?</h2>
+
+      <div id="quiz" aria-live="polite">
+        <div class="quiz-question" id="quiz-question"></div>
+        <div class="quiz-options" id="quiz-options" role="list"></div>
+
+        <div id="quiz-feedback" aria-live="polite"></div>
+        <div id="quiz-explain"></div>
+
+        <button id="quiz-next" onclick="nextQuestion()" aria-label="Próxima pergunta">Próxima Pergunta ➡️</button>
+        <div id="quiz-result" style="margin-top:12px;font-weight:700;"></div>
+      </div>
+
+    </section>
+
+    <footer>
+      Desenvolvido por Vinicius e Eduarda • Simulações educativas — nenhuma informação é coletada.
+    </footer>
+  </main>
+
+  <!-- Modal Educativo -->
+  <div id="trap-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="trap-content" role="document">
+      <h3 id="trap-title-modal"></h3>
+      <p id="trap-message-modal"></p>
+
+      <div class="trap-actions">
+        <button class="btn secondary" id="trap-learn-more">Ver dicas</button>
+        <button class="btn" id="trap-close">Entendi</button>
+      </div>
+      <p class="note" id="trap-note">(Isso é uma simulação segura — nenhum dado foi enviado.)</p>
+    </div>
+  </div>
 
   <script>
+    /* ---------- Data ---------- */
+    const traps = [
+      {
+        title: "🎁 Quase caiu!",
+        message: "Promessas de prêmios gratuitos são iscas comuns. Muitos sites falsos coletam seus dados ou tentam instalar malwares. Antes de clicar, verifique o domínio real e desconfie de ofertas que exigem dados sensíveis."
+      },
+      {
+        title: "😅 Pegadinha digital!",
+        message: "Links dizendo que você foi marcado em vídeos usam curiosidade para te fazer clicar. Ao acessar, você pode autorizar apps maliciosos ou expor suas contas. Confirme com a pessoa por outro canal antes de clicar."
+      },
+      {
+        title: "⚠️ Golpe de phishing!",
+        message: "Bancos não enviam links solicitando atualização de dados. Se receber uma mensagem assim, acesse o internet banking oficial (digitando o endereço você mesmo) ou ligue para o banco. Nunca informe senhas ou códigos."
+      }
+    ];
+
+    /* ---------- Fake URLs already included in markup as data-url (display only) ---------- */
+
+    /* ---------- Modal behavior + sound (simple beep) ---------- */
+    const modal = document.getElementById('trap-modal');
+    const modalTitle = document.getElementById('trap-title-modal');
+    const modalMsg = document.getElementById('trap-message-modal');
+    const closeBtn = document.getElementById('trap-close');
+    const learnBtn = document.getElementById('trap-learn-more');
+
+    function playBeep(){
+      // don't play sound if user prefers reduced motion
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.value = 880;
+        g.gain.setValueAtTime(0.001, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start();
+        o.stop(ctx.currentTime + 0.18);
+      } catch (e) {
+        // ignore audio errors (some browsers require user gesture)
+        // console.log('beep failed', e);
+      }
+    }
+
+    function openModal(index){
+      const t = traps[index];
+      modalTitle.textContent = t.title;
+      modalMsg.textContent = t.message;
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden','false');
+      // focus management
+      learnBtn.focus();
+      // play short beep for emphasis
+      playBeep();
+    }
+
+    function closeModal(){
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden','true');
+      // return focus to previous element if possible
+      const last = document.querySelector('.fake-link[aria-pressed="true"]') || document.querySelector('.fake-link');
+      if(last) last.focus();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    learnBtn.addEventListener('click', () => {
+      closeModal();
+      // scroll to tips
+      document.querySelector('.card[aria-label="dicas"]').scrollIntoView({behavior:'smooth'});
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && modal.style.display === 'flex') closeModal();
+    });
+
+    /* ---------- Fake link handler (appearance like real link, but safe) ---------- */
+    function handleFakeLink(e){
+      e.preventDefault();
+      const el = e.currentTarget;
+      const index = Number(el.dataset.index || 0);
+      // mark pressed for focus return (not persistent)
+      document.querySelectorAll('.fake-link').forEach(a => a.removeAttribute('aria-pressed'));
+      el.setAttribute('aria-pressed','true');
+
+      // For realism, show the URL briefly in console (only developer) but never redirect.
+      // Open modal with explanation instead
+      openModal(index);
+    }
+
+    // Ensure keyboard activation works (Enter/Space) on anchors with role=button
+    document.querySelectorAll('.fake-link').forEach(a => {
+      a.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          a.click();
+        }
+      });
+    });
+
+    /* ---------- QUIZ (with short explanations) ---------- */
     const perguntas = [
       {
         pergunta: "Se alguém te envia um código por SMS e pede para repassar, o que você faz?",
         opcoes: ["Envio, parece confiável", "Não envio, pode ser golpe"],
         correta: 1,
+        explicacao: "Códigos são usados para roubar acessos (2FA). Nunca repasse códigos recebidos."
       },
       {
         pergunta: "Você recebe um link estranho dizendo que ganhou um prêmio. O que fazer?",
         opcoes: ["Clico para conferir", "Ignoro, pode ser um golpe"],
         correta: 1,
+        explicacao: "Ofertas assim geralmente são iscas. Pesquise o site e verifique o domínio antes de interagir."
       },
       {
         pergunta: "Por que ativar a verificação em duas etapas é importante?",
         opcoes: ["Aumenta a segurança da conta", "É opcional, não faz diferença"],
         correta: 0,
+        explicacao: "2FA adiciona uma camada extra que dificulta o acesso mesmo se alguém roubar sua senha."
       },
       {
         pergunta: "Um 'amigo' te pede dinheiro por mensagem. Qual a atitude correta?",
-        opcoes: [
-          "Confirmo por ligação antes de enviar",
-          "Envio rápido para ajudar",
-        ],
+        opcoes: ["Confirmo por ligação antes de enviar", "Envio rápido para ajudar"],
         correta: 0,
+        explicacao: "Confirme por outra forma (ligação) porque contas podem ser clonadas."
       },
       {
         pergunta: "O site tem o endereço 'banco-brasil.seguro-login.net'. O que isso indica?",
         opcoes: ["É falso, tenta se passar por um site oficial", "É confiável, tem o nome do banco"],
         correta: 0,
+        explicacao: "Golpistas usam subdomínios para parecer legítimos. Verifique domínio principal e certificado."
       },
       {
         pergunta: "Qual é uma boa prática de segurança?",
         opcoes: ["Usar a mesma senha em todos os sites", "Criar senhas únicas e fortes para cada conta"],
         correta: 1,
+        explicacao: "Senhas únicas evitam que uma quebra de um site comprometa todas as suas contas."
       },
     ];
 
     let indice = 0;
     let acertos = 0;
 
-    const perguntaEl = document.getElementById("quiz-question");
-    const opcoesEl = document.getElementById("quiz-options");
-    const feedbackEl = document.getElementById("quiz-feedback");
-    const botaoProx = document.getElementById("quiz-next");
-    const resultadoEl = document.getElementById("quiz-result");
+    const perguntaEl = document.getElementById('quiz-question');
+    const opcoesEl = document.getElementById('quiz-options');
+    const feedbackEl = document.getElementById('quiz-feedback');
+    const explainEl = document.getElementById('quiz-explain');
+    const botaoProx = document.getElementById('quiz-next');
+    const resultadoEl = document.getElementById('quiz-result');
 
-    function carregarPergunta() {
-      feedbackEl.textContent = "";
-      botaoProx.style.display = "none";
-      resultadoEl.textContent = "";
+    function carregarPergunta(){
+      feedbackEl.textContent = '';
+      explainEl.textContent = '';
+      botaoProx.style.display = 'none';
+      resultadoEl.textContent = '';
 
-      const perguntaAtual = perguntas[indice];
-      perguntaEl.textContent = perguntaAtual.pergunta;
-      opcoesEl.innerHTML = "";
+      const p = perguntas[indice];
+      perguntaEl.textContent = `(${indice + 1}/${perguntas.length}) ${p.pergunta}`;
+      opcoesEl.innerHTML = '';
 
-      perguntaAtual.opcoes.forEach((opcao, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = opcao;
-        btn.onclick = () => verificarResposta(i);
+      p.opcoes.forEach((op, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = op;
+        btn.type = 'button';
+        btn.dataset.index = i;
+        btn.setAttribute('role','listitem');
+        btn.addEventListener('click', () => verificarResposta(i));
         opcoesEl.appendChild(btn);
       });
     }
 
-    function verificarResposta(resposta) {
-      const perguntaAtual = perguntas[indice];
-      const botoes = document.querySelectorAll(".quiz-options button");
+    function verificarResposta(resposta){
+      const atual = perguntas[indice];
+      const botoes = opcoesEl.querySelectorAll('button');
 
       botoes.forEach((b, i) => {
         b.disabled = true;
-        if (i === perguntaAtual.correta) b.classList.add("correct");
-        else if (i === resposta) b.classList.add("wrong");
+        if(i === atual.correta) b.classList.add('correct');
+        if(i === resposta && resposta !== atual.correta) b.classList.add('wrong');
       });
 
-      if (resposta === perguntaAtual.correta) {
+      if(resposta === atual.correta){
         acertos++;
-        feedbackEl.textContent = "✅ Resposta correta!";
+        feedbackEl.textContent = '✅ Resposta correta!';
       } else {
-        feedbackEl.textContent = "❌ Resposta errada. Revise as dicas!";
+        feedbackEl.textContent = '❌ Resposta errada.';
       }
 
-      botaoProx.style.display = "inline-block";
+      // mostrar explicação curta
+      explainEl.textContent = atual.explicacao || '';
+      botaoProx.style.display = 'inline-block';
+      botaoProx.focus();
     }
 
-    function nextQuestion() {
+    function nextQuestion(){
       indice++;
-      if (indice < perguntas.length) {
+      if(indice < perguntas.length){
         carregarPergunta();
       } else {
         mostrarResultado();
       }
     }
 
-    function mostrarResultado() {
-      perguntaEl.textContent = "";
-      opcoesEl.innerHTML = "";
-      feedbackEl.textContent = "";
-      botaoProx.style.display = "none";
-      resultadoEl.innerHTML = `Você acertou <b>${acertos}</b> de <b>${perguntas.length}</b> perguntas!<br><br>${
-        acertos === perguntas.length
-          ? "🎉 Excelente! Você está muito bem protegido contra golpes!"
-          : acertos >= 4
-          ? "💪 Muito bom! Só alguns detalhes para reforçar sua segurança."
-          : "⚠️ Atenção! Revise as dicas para se proteger melhor."
-      }`;
+    function mostrarResultado(){
+      perguntaEl.textContent = '';
+      opcoesEl.innerHTML = '';
+      feedbackEl.textContent = '';
+      explainEl.textContent = '';
+      botaoProx.style.display = 'none';
+
+      const total = perguntas.length;
+      let msg = '';
+      if(acertos === total){
+        msg = '🎉 Excelente! Você está muito bem protegido contra golpes!';
+      } else if(acertos >= Math.ceil(total * 0.66)){
+        msg = '💪 Muito bom! Só alguns detalhes para reforçar sua segurança.';
+      } else {
+        msg = '⚠️ Atenção! Revise as dicas para se proteger melhor.';
+      }
+
+      resultadoEl.innerHTML = `Você acertou <strong>${acertos}</strong> de <strong>${total}</strong> perguntas. <br> ${msg}`;
+      // allow user to retake after a short delay by showing a button
+      setTimeout(() => {
+        const reiniciar = document.createElement('button');
+        reiniciar.className = 'btn';
+        reiniciar.textContent = 'Refazer Quiz';
+        reiniciar.onclick = () => { indice = 0; acertos = 0; carregarPergunta(); resultadoEl.textContent = ''; };
+        resultadoEl.appendChild(document.createElement('div')).style.marginTop = '10px';
+        resultadoEl.appendChild(reiniciar);
+      }, 300);
     }
 
+    // init
     carregarPergunta();
+
+    /* Accessibility: trap click focus return cleanup */
+    document.querySelectorAll('.fake-link').forEach(a => {
+      a.addEventListener('click', (e) => {
+        // visually indicate pressed for a moment
+        a.setAttribute('aria-pressed','true');
+        setTimeout(()=> a.removeAttribute('aria-pressed'), 8000);
+      });
+    });
+
   </script>
 </body>
 </html>
