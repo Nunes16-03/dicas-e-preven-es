@@ -129,14 +129,20 @@
       grid-template-columns:1fr;
     }
     .trap {
-      background: linear-gradient(180deg,#fffdf8,#fff8f0);
-      border-radius:10px;
-      padding:14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      border:1px solid rgba(0,0,0,0.03);
+      background: linear-gradient(180deg, #fffdf8, #fff8f0);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .trap:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
     .trap-left {
       display:flex;
@@ -162,6 +168,21 @@
       cursor:pointer;
       border-radius:6px;
       padding:6px 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .fake-link::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 97, 255, 0.2);
+      transition: left 0.3s ease;
+    }
+    .fake-link:hover::after {
+      left: 0;
     }
     .fake-link:focus{
       outline:3px solid rgba(11,97,255,0.12);
@@ -190,52 +211,101 @@
       display:none;
       position:fixed;
       inset:0;
-      background:rgba(8,10,15,0.45);
+      background:rgba(0,0,0,0.6);
       z-index:1200;
       align-items:center;
       justify-content:center;
-      padding:18px;
+      padding:20px;
+      animation: fadeIn 0.3s ease;
     }
     .trap-content{
       width:100%;
-      max-width:560px;
-      border-radius:12px;
-      background:#fff;
-      padding:20px;
-      box-shadow: 0 18px 50px rgba(14,14,14,0.2);
-      text-align:left;
-      transform:translateY(8px);
+      max-width:500px;
+      border-radius:16px;
+      background:linear-gradient(135deg, #ffffff, #f9f9f9);
+      padding:24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      text-align:center;
+      transform:translateY(20px);
+      animation: slideIn 0.4s ease;
     }
-    .trap-content h3{
-      margin:0;
-      color:var(--danger);
-      font-size:1.05rem;
+    @keyframes fadeIn {
+      from {
+        background: rgba(0, 0, 0, 0);
+      }
+      to {
+        background: rgba(0, 0, 0, 0.6);
+      }
     }
-    .trap-content p{ margin:10px 0 0; color:#333; }
-    .trap-actions{
-      display:flex;
-      gap:10px;
-      margin-top:16px;
-      justify-content:flex-end;
-    }
-    .btn{
-      border:0;
-      padding:9px 12px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:600;
-      background:var(--accent);
-      color:white;
-    }
-    .btn.secondary{
-      background:#fff;
-      color:#333;
-      border:1px solid #e6e6e6;
+    @keyframes slideIn {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
     .note{
       font-size:0.85rem;
       color:var(--muted);
       margin-top:10px;
+    }
+
+    .trap-content h3 {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .trap-content p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .trap-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .trap-actions .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .trap-actions .btn.secondary {
+      background: #f1f1f1;
+      color: #333;
+    }
+
+    .trap-actions .btn.secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .trap-actions .btn {
+      background: var(--accent);
+      color: white;
+    }
+
+    .trap-actions .btn:hover {
+      background: var(--accent-strong);
+      transform: scale(1.05);
+    }
+
+    .trap-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 12px;
     }
 
     /* quiz */
@@ -258,7 +328,7 @@
     #quiz-feedback{ margin-top:12px; font-weight:700; min-height:34px; }
     #quiz-explain{ margin-top:8px; color:var(--muted); font-size:0.95rem; }
 
-    #quiz-next{ display:none; margin-top:12px; background:var(--accent); color:white; padding:10px 14px; border-radius:10px; border:0; cursor:pointer; }
+        #quiz-next{ display:none; margin-top:12px; background:var(--accent); color:white; padding:10px 14px; border-radius:10px; border:0; cursor:pointer; }
 
     /* footer */
     footer{
@@ -272,6 +342,22 @@
     /* small helpers */
     .row{ display:flex; gap:12px; align-items:center; }
     .muted{ color:var(--muted); font-size:0.95rem; }
+
+    .fake-link.pulse {
+      animation: pulse 0.4s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
 
   </style>
 </head>
@@ -436,24 +522,41 @@
       }
     }
 
-    function openModal(index){
+    function handleFakeLink(e) {
+      e.preventDefault();
+      const el = e.currentTarget;
+      const index = Number(el.dataset.index || 0);
+
+      // Adiciona a classe de animação "pulse"
+      el.classList.add('pulse');
+      setTimeout(() => el.classList.remove('pulse'), 400);
+
+      // Marca o link como pressionado para foco
+      document.querySelectorAll('.fake-link').forEach(a => a.removeAttribute('aria-pressed'));
+      el.setAttribute('aria-pressed', 'true');
+
+      // Abre o modal com a explicação
+      openModal(index);
+    }
+
+    function openModal(index) {
       const t = traps[index];
       modalTitle.textContent = t.title;
       modalMsg.textContent = t.message;
       modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden','false');
-      // focus management
+      modal.setAttribute('aria-hidden', 'false');
+      // Foco no botão de dicas
       learnBtn.focus();
-      // play short beep for emphasis
+      // Toca o som de alerta
       playBeep();
     }
 
-    function closeModal(){
+    function closeModal() {
       modal.style.display = 'none';
-      modal.setAttribute('aria-hidden','true');
-      // return focus to previous element if possible
+      modal.setAttribute('aria-hidden', 'true');
+      // Retorna o foco ao último link clicado
       const last = document.querySelector('.fake-link[aria-pressed="true"]') || document.querySelector('.fake-link');
-      if(last) last.focus();
+      if (last) last.focus();
     }
 
     closeBtn.addEventListener('click', closeModal);
